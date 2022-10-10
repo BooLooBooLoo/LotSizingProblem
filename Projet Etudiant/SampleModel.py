@@ -18,11 +18,9 @@ def ArrayReader():
         for j in range(len(lines[i])):
             lines[i][j] = int(lines[i][j])
     return(lines)
-Randomizer(10, 1000)
-ArrayReader()
 def stochastic(t,N,E):
     #On définit le modèle
-    m=Model(name='Deterministic')
+    m=Model(name='SampleModel')
     m.parameters.mip.tolerances.integrality=1e-15
     #On définit les 2 listes de variables
     x=m.integer_var_list(t,name='x')
