@@ -4,10 +4,10 @@ import pandas as pd
 from random import randint
 
 df = open("random.txt","w")
-def Randomizer(T, N):
+def Randomizer(T, N, dmin, dmax):
     for i in range(N):
         for i in range(T):
-            rand=randint(20,50)
+            rand=randint(dmin,dmax)
             df.write(str(rand)+" ")
         df.write('\n')
 
@@ -21,14 +21,24 @@ def ArrayReader():
             lines[i][j] = int(lines[i][j])
     return(lines)
 
-def objective(t, ):
+def objective(t, dmin, dmax):
+    #On définit le modèle
     m = Model(name="MS1Model")
     m.parameters.mip.tolerances.integrality=1e-15
-    #On définit les 2 listes de variables
+
+    #On définit les constantes
+    j = dmax - dmin
+
+    #On définit les listes de variables
     x=m.integer_var_list(t,name='x')
     y=m.binary_var_list(t,name='y')
-    Randomizer(10, 1000)
+    z=m.binary_var_matrix(t, j,name='z')
+    w=m.integer_var_list(t,name='w')
+    I = m.integer_var_list(t, name='I')
+    #On appelle le randomizer
+    Randomizer(10, 1000, dmin, dmax)
     ArrayReader()
+
     h=[]
     #Coût fixe de production.
     f=[]
@@ -39,3 +49,6 @@ def objective(t, ):
         h.append(1)
         f.append(50)
         c.append(100)
+    for i in range(t):
+        m.add_constraint(x[i]<=c[i]*y[i])
+        m.add_constraint(x[i]>=0)
