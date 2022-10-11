@@ -39,7 +39,7 @@ def objective(t, E, dmin, dmax):
         m.add_constraint(w[i] == m.sum(j*z[i][j-dmin] for j in range(dmin,dmax+1)))
         m.add_constraint(I[i] >= 0)
         m.add_constraint(I[i-1] + x[i] - I[i] >= w[i])
-        m.add_constraint(m.sum(m.sum(z[i][k-dmin]*log(F[k]) for k in range(dmin,dmax+1)) for i in range(t)) >= math.log(1-E))
+        m.add_constraint(m.sum(m.sum(z[i][k-dmin]*log(F[k]) for k in range(dmin,dmax+1))) >= math.log(1-E))
 
     #On définit la fonction objectif
     m.minimize(m.sum(f[i]*y[i] for i in range(t))+m.sum(h[i]*I[i] for i in range(t)))
@@ -55,8 +55,8 @@ def objective(t, E, dmin, dmax):
         print("w[",i,"] = ", w[i].solution_value)
         print("I[",i,"] = ", I[i].solution_value)
         for k in range(jVal):
-            #if z[i][k].solution_value == 1:
-            print("z[",i,",",k,"] = ", z[i][k].solution_value)
+            if z[i][k].solution_value == 1:
+                print("z[",i,",",k,"] = ", z[i][k].solution_value)
 
 objective(10, 0.05, 20, 50)
 
