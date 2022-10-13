@@ -6,7 +6,7 @@ df = open("random.txt","w")
 def Randomizer(T, N):
     for i in range(N):
         for i in range(T):
-            rand=randint(20,50)
+            rand=randint(10,50)
             df.write(str(rand)+" ")
         df.write('\n')
 def ArrayReader():
@@ -50,7 +50,7 @@ def stochastic(t,N,E):
     for i in range(t):
         m.add_constraint(x[i]<=c[i]*y[i])
         m.add_constraint(x[i]>=0)
-    #sample approximation approach
+    #sample average approximation
     for i in range(N):
         for j in range(t):
             m.add_constraint(m.sum(x[k] for k in range(j))>=m.sum(array[i][k] for k in range(j))*(1-a[i]))
