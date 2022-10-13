@@ -18,7 +18,7 @@ def objective(t, E, dmin, dmax):
     y = m.binary_var_list(t,name='y')
     z = {k: m.binary_var_list(jVal+1, name="w_{0}".format(k)) for k in range(t)}
     w = m.integer_var_list(t,name='w')
-    I = m.integer_var_list(t, name='I')
+    I = m.integer_var_list(t+1, name='I')
 
     h=[]
     #Coût fixe de production.
@@ -35,11 +35,12 @@ def objective(t, E, dmin, dmax):
     for i in range(t):
         m.add_constraint(x[i]<=c[i]*y[i])
         m.add_constraint(x[i]>=0)
+        m.add_constraint(I[0] == 0)
         m.add_constraint(m.sum(z[i][k] for k in range(1,jVal+1)) == 1)
         m.add_constraint(w[i] == m.sum(j*z[i][j-dmin] for j in range(dmin,dmax+1)))
         m.add_constraint(I[i] >= 0)
-        m.add_constraint(I[i-1] + x[i] - I[i] >= w[i])
-        m.add_constraint(m.sum(m.sum(z[i][k-dmin]*log(F[k]) for k in range(dmin,dmax+1))) >= math.log(1-E))
+        m.add_constraint(I[i] + x[i] - I[i+1] >= w[i])
+        m.add_constraint(m.sum(m.sum(z[i][k]*math.log(F[k]) for k in range(jVal+1))) >= math.log(1-E))
 
     #On définit la fonction objectif
     m.minimize(m.sum(f[i]*y[i] for i in range(t))+m.sum(h[i]*I[i] for i in range(t)))
