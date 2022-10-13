@@ -36,6 +36,7 @@ def objective(t, E, dmin, dmax):
         m.add_constraint(x[i]<=c[i]*y[i])
         m.add_constraint(x[i]>=0)
         m.add_constraint(I[0] == 0)
+        m.add_constraint(z[i][0] == 0)
         m.add_constraint(m.sum(z[i][k] for k in range(1,jVal+1)) == 1)
         m.add_constraint(w[i] == m.sum(j*z[i][j-dmin] for j in range(dmin,dmax+1)))
         m.add_constraint(I[i] >= 0)
