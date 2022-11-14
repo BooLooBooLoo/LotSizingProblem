@@ -37,9 +37,9 @@ def objective(t, E, dmin, dmax):
         m.add_constraint(x[i]>=0)
         if i == 0:
             #m.add_constraint(I[0] == 0) #Stock initial nul
-            m.add_constraint(x[i] >= w[i])
+            m.add_constraint(x[i] -I[0] == w[i])
         else :
-            m.add_constraint(I[i-1] + x[i] - I[i] >= w[i])
+            m.add_constraint(I[i-1] + x[i] - I[i] == w[i])
         m.add_constraint(z[i][0] == 0)
         m.add_constraint(m.sum(z[i][k] for k in range(1,jVal+1)) == 1)
         m.add_constraint(w[i] == m.sum(j*z[i][j-dmin] for j in range(dmin,dmax+1)))
@@ -59,9 +59,11 @@ def objective(t, E, dmin, dmax):
         print("y[",i,"] = ", y[i].solution_value)
         print("w[",i,"] = ", w[i].solution_value)
         print("I[",i,"] = ", I[i].solution_value)
-        for k in range(jVal):
-            if z[i][k].solution_value == 1:
+        
+        for k in range(jVal+1):
+            if z[i][k].solution_value >= 0.9:
                 print("z[",i,",",k,"] = ", z[i][k].solution_value)
+            
 
 objective(10, 0.05, 10, 50)
 

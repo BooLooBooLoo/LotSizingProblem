@@ -73,5 +73,5 @@ def stochastic(t,N,E):
     for i in range(t):
         sol+=f[i]*yy[i]+h[i]*(m.sum(xx[j] for j in range(i))-m.sum(expectation[j] for j in range(i)))
     print("Solution=",sol)
-stochastic(10,300,0.05)
+stochastic(10,100,0.5)
     
