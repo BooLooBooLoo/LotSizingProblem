@@ -5,7 +5,7 @@ import math
 
 def objective(t, E, dmin, dmax):
     #On définit le modèle
-    m = Model(name="MS1Model")
+    m = Model(name="SM1Model")
     m.parameters.mip.tolerances.integrality=1e-20
 
     #On définit les constantes

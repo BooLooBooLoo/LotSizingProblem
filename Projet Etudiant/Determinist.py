@@ -20,8 +20,8 @@ def main(t):
     #On définit aléatoirement les constantes
     for i in range(t):
         h.append(random.randint(10,20))
-        d.append(random.randint(100,150))
-        f.append(random.randint(2000,3000))
+        d.append(random.randint(10,50))
+        f.append(random.randint(200,300))
         c.append(random.randint(160,200))
     #On définit les contraintes
     for i in range(t):
@@ -37,8 +37,12 @@ def main(t):
     m.solve()
     #On affiche les résultats
     m.print_information()   
-    m.print_solution()
-    print(h,"\n",d,"\n",f,"\n",c,"\n")
+    #m.print_solution()
+    print('Solution objective: {}'.format(m.objective_value))
+    print("h=",h)
+    print("d=",d)
+    print("f=",f)
+    print("c=",c)
     print("x=",m.solution.get_values(x))
     print("y=",m.solution.get_values(y))
-main(100)
+main(10)

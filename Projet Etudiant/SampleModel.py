@@ -22,7 +22,7 @@ def stochastic(t,N,E):
     #On définit le modèle
     m=Model(name='SampleModel')
     m.parameters.mip.tolerances.integrality=1e-15
-    #On définit les 2 listes de variables
+    #On définit les 3 listes de variables
     x=m.integer_var_list(t,name='x')
     y=m.binary_var_list(t,name='y')
     a=m.binary_var_list(N,name='a')
@@ -73,5 +73,5 @@ def stochastic(t,N,E):
     for i in range(t):
         sol+=f[i]*yy[i]+h[i]*(m.sum(xx[j] for j in range(i))-m.sum(expectation[j] for j in range(i)))
     print("Solution=",sol)
-stochastic(10,100,0.5)
+stochastic(10,100,0.05)
     
